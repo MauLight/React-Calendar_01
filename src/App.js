@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import ReactDOM from 'react-dom';
 import './App.css';
 
 function App() {
+
+  const AllMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  const [selectedDate, setSelectedDate] = useState();
+  const [calendarText, setCalendarText] = useState('No date selected');
+
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
+    setCalendarText(`The selected Date is ${value.toDateString()}`)
+  }
+
+  const handleYearChange = (value) => {
+    const yearValue = value.getFullYear();
+    setCalendarText(`${yearValue} Year is selected`);
+  }
+
+  const handleMonthChange = (value) => {
+    const monthValue = AllMonths[value.getMonth()];
+    setCalendarText(`${monthValue} Month is selected`);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2 className='calendar-details'>{calendarText}</h2>
+      <Calendar 
+        onClickMonth={handleMonthChange}
+        onClickYear={handleYearChange}
+        onChange={handleDateChange}
+        value={selectedDate}
+      />
     </div>
   );
 }
